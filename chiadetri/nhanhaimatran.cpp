@@ -1,12 +1,16 @@
+//lab
 #include <iostream>
 #include <vector>
 
 using namespace std;
 // Hàm in ma trận
-void printMatrix(const vector<vector<int>>& matrix) {
+void printMatrix(const vector<vector<int>> &matrix)
+{
     int n = matrix.size();
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
@@ -14,12 +18,15 @@ void printMatrix(const vector<vector<int>>& matrix) {
 }
 
 // Hàm cộng hai ma trận
-vector<vector<int>> addMatrix(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> addMatrix(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
     vector<vector<int>> result(n, vector<int>(n, 0));
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
             result[i][j] = A[i][j] + B[i][j];
         }
     }
@@ -28,28 +35,55 @@ vector<vector<int>> addMatrix(const vector<vector<int>>& A, const vector<vector<
 }
 
 // Hàm trừ hai ma trận
-vector<vector<int>> subtractMatrix(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> subtractMatrix(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
     vector<vector<int>> result(n, vector<int>(n, 0));
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
             result[i][j] = A[i][j] - B[i][j];
         }
     }
 
     return result;
 }
+// Nhan ma tran su dung thuat toan vetcan
+int **matrixProduct(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
+    int n = A.size();
+    int **C = new int *[n];
+    for (int i = 0; i < n; i++)
+    {
+        C[i] = new int[n];
+        for (int j = 0; j < n; j++)
+        {
+            C[i][j] = 0;
+            for (int k = 0; k < n; k++)
+            {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return C;
+}
 
 // Hàm nhân hai ma trận bằng thuật toán Strassen
-vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> strassenMultiply(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
 
-    if (n < 4) {
+    if (n < 4)
+    {
         vector<vector<int>> result(n, vector<int>(n, 0));
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                for (int k = 0; k < n; ++k)
+                {
                     result[i][j] += A[i][k] * B[k][j];
                 }
             }
@@ -68,8 +102,10 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
     vector<vector<int>> B21(halfSize, vector<int>(halfSize));
     vector<vector<int>> B22(halfSize, vector<int>(halfSize));
 
-    for (int i = 0; i < halfSize; ++i) {
-        for (int j = 0; j < halfSize; ++j) {
+    for (int i = 0; i < halfSize; ++i)
+    {
+        for (int j = 0; j < halfSize; ++j)
+        {
             A11[i][j] = A[i][j];
             A12[i][j] = A[i][j + halfSize];
             A21[i][j] = A[i + halfSize][j];
@@ -81,7 +117,6 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
             B22[i][j] = B[i + halfSize][j + halfSize];
         }
     }
-    
 
     vector<vector<int>> m1 = strassenMultiply(addMatrix(A11, A22), addMatrix(B11, B22));
     vector<vector<int>> m2 = strassenMultiply(addMatrix(A21, A22), B11);
@@ -98,8 +133,10 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
 
     // Kết hợp các phần kết quả thành ma trận tổng
     vector<vector<int>> result(n, vector<int>(n, 0));
-    for (int i = 0; i < halfSize; ++i) {
-        for (int j = 0; j < halfSize; ++j) {
+    for (int i = 0; i < halfSize; ++i)
+    {
+        for (int j = 0; j < halfSize; ++j)
+        {
             result[i][j] = r[i][j];
             result[i][j + halfSize] = s[i][j];
             result[i + halfSize][j] = t[i][j];
@@ -107,36 +144,54 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
         }
     }
     cout << "Ma tran thanh phan\n";
+    cout << "r:\n";
     printMatrix(r);
+    cout << "s:\n";
     printMatrix(s);
+    cout << "t:\n";
     printMatrix(t);
+    cout << "u:\n";
     printMatrix(u);
     return result;
 }
 
-
-
-int main() {
+int main()
+{
     // Khởi tạo và nhập liệu cho hai ma trận cấp 4
     int n = 4; // Kích thước của ma trận
     vector<vector<int>> A = {
-        {1, 3, 5, 7}, {9, 11, 13, 15}, {17, 19, 21, 23} ,{25, 27, 29, 31}
-    };
+        {1, 3, 5, 7}, {9, 11, 13, 15}, {17, 19, 21, 23}, {25, 27, 29, 31}};
 
     vector<vector<int>> B = {
-        {2, 4, 6, 8}, {10, 12, 14, 16}, {18,20,22,24}, {26,28,30,32}
-    };
-
-    // Thực hiện nhân hai ma trận sử dụng thuật toán Strassen
-    vector<vector<int>> result = strassenMultiply(A, B);
-
+        {2, 4, 6, 8}, {10, 12, 14, 16}, {18, 20, 22, 24}, {26, 28, 30, 32}};
     // In ma trận kết quả
     cout << "Ma tran A:" << endl;
     printMatrix(A);
 
     cout << "Ma tran B:" << endl;
     printMatrix(B);
+    cout << "Cach 1: Su dung thuat toan vet can\n";
+    int **result1 = matrixProduct(A, B);
+    cout << "Ma tran ket qua:\n";
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << result1[i][j] << " ";
+        }
+        cout << endl;
+    }
 
+    // Giải phóng bộ nhớ
+    for (int i = 0; i < 2; i++)
+    {
+        delete[] result1[i];
+    }
+    delete[] result1;
+
+    // Thực hiện nhân hai ma trận sử dụng thuật toán Strassen
+    cout << "Cach 2: Su dung thuat toan strassen\n";
+    vector<vector<int>> result = strassenMultiply(A, B);
     cout << "Ma tran ket qua:" << endl;
     printMatrix(result);
 

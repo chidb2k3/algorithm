@@ -1,1 +1,2 @@
-v
+
+            for (const edge &e : t)
